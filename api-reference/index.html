@@ -580,6 +580,14 @@ itSKIP(phrase, callback)
 <span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">to</span><span class="p">.</span><span class="n">equal</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">never</span><span class="p">.</span><span class="n">to</span><span class="p">.</span><span class="n">equal</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
+<span class="c1">-- Approximate equality</span>
+<span class="n">expect</span><span class="p">(</span><span class="mi">5</span><span class="p">).</span><span class="n">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">near</span><span class="p">(</span><span class="mi">5</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="mi">5</span><span class="p">).</span><span class="n">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">near</span><span class="p">(</span><span class="mi">5</span> <span class="o">-</span> <span class="mf">1e-8</span><span class="p">)</span>
+<span class="n">expect</span><span class="p">(</span><span class="nb">math.pi</span><span class="p">).</span><span class="n">never</span><span class="p">.</span><span class="n">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">near</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1">-- Optional limit parameter</span>
+<span class="n">expect</span><span class="p">(</span><span class="nb">math.pi</span><span class="p">).</span><span class="n">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">near</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+
 <span class="c1">-- Nil checking</span>
 <span class="n">expect</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">ok</span><span class="p">()</span>
 <span class="n">expect</span><span class="p">(</span><span class="kc">false</span><span class="p">).</span><span class="n">to</span><span class="p">.</span><span class="n">be</span><span class="p">.</span><span class="n">ok</span><span class="p">()</span>
