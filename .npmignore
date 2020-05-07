@@ -1,0 +1,22 @@
+# directories
+.github/
+.vscode/
+docs/
+test/
+testez-cli/
+tests/
+
+# files
+*.rbxlx
+.editorconfig
+.eslintrc
+.gitignore
+.gitmodules
+.luacheckrc
+Cargo.lock
+Cargo.toml
+default.project.json
+foreman.toml
+mkdocs.yml
+rotriever.toml
+test-place.project.json

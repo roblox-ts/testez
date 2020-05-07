@@ -12,3 +12,8 @@
 
 # Cargo build output
 /target
+
+# rbxtsc
+include/
+node_modules/
+out/
