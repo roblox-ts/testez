@@ -4,7 +4,6 @@ import RunResults from "./RunResults";
 import TestBootstrap from "./TestBootstrap";
 import TestEnum from "./TestEnum";
 import TestPlan from "./TestPlan";
-import TestPlanBuilder from "./TestPlanBuilder";
 import TestPlanner from "./TestPlanner";
 import TestResults from "./TestResults";
 import TestRunner from "./TestRunner";
@@ -17,7 +16,6 @@ interface TestEZ {
 	TestBootstrap: TestBootstrap;
 	TestEnum: TestEnum;
 	TestPlan: TestPlan;
-	TestPlanBuilder: TestPlanBuilder;
 	TestPlanner: typeof TestPlanner;
 	TestResults: TestResults;
 	TestRunner: typeof TestRunner;
