@@ -55,10 +55,10 @@ interface Expectation {
 	 * Assert that our expectation value is equal to another value within some
 	 * inclusive limit.
 	 * @param otherValue The other value
-	 * @param limit The inclusive limit
+	 * @param limit The inclusive limit (defaults to 1e-7)
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	near(otherValue: unknown, limit: number): Expectation;
+	near(otherValue: unknown, limit?: number): Expectation;
 
 	/**
 	 * Assert that our functoid expectation value throws an error when called
