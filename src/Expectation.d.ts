@@ -1,29 +1,26 @@
-export declare class Expectation {
+interface Expectation {
 	// LINGUISTIC NO-OPS
 	/** A linguistic no-op */
-	public readonly to: Expectation;
+	readonly to: Expectation;
 
 	/** A linguistic no-op */
-	public readonly be: Expectation;
+	readonly be: Expectation;
 
 	/** A linguistic no-op */
-	public readonly been: Expectation;
+	readonly been: Expectation;
 
 	/** A linguistic no-op */
-	public readonly have: Expectation;
+	readonly have: Expectation;
 
 	/** A linguistic no-op */
-	public readonly was: Expectation;
+	readonly was: Expectation;
 
 	/** A linguistic no-op */
-	public readonly at: Expectation;
+	readonly at: Expectation;
 
 	// LINGUISTIC OPS
 	/** Applies a never operation to the expectation */
-	public readonly never: Expectation;
-
-	// CONSTRUCTOR
-	public constructor(value: unknown);
+	readonly never: Expectation;
 
 	// METHODS
 
@@ -32,27 +29,27 @@ export declare class Expectation {
 	 * @param typeName The given type
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	public a(typeName: string): Expectation;
+	a(typeName: string): Expectation;
 
 	/**
 	 * Assert that the expectation value is the given type.
 	 * @param typeName The given type
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	public an(typeName: string): Expectation;
+	an(typeName: string): Expectation;
 
 	/**
 	 * Assert that our expectation value is truthy
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	public ok(): Expectation;
+	ok(): Expectation;
 
 	/**
 	 * Assert that our expectation value is equal to another value
 	 * @param otherValue The other value
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	public equal(otherValue: unknown): Expectation;
+	equal(otherValue: unknown): Expectation;
 
 	/**
 	 * Assert that our expectation value is equal to another value within some
@@ -61,11 +58,18 @@ export declare class Expectation {
 	 * @param limit The inclusive limit
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	public near(otherValue: unknown, limit: number): Expectation;
+	near(otherValue: unknown, limit: number): Expectation;
 
 	/**
 	 * Assert that our functoid expectation value throws an error when called
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	public throw(): Expectation;
+	throw(): Expectation;
 }
+
+interface ExpectationConstructor {
+	new (value: unknown): Expectation;
+}
+
+declare const Expectation: ExpectationConstructor;
+export = Expectation;

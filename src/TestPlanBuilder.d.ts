@@ -1,6 +1,6 @@
-import { TestPlan } from "TestPlan";
-import { PlanNode } from "PlanNode";
-import { TestEnum } from "index";
+import TestPlan from "./TestPlan";
+import PlanNode from "./PlanNode";
+import TestEnum from "./TestEnum";
 
 /**
  * Represents the ephermal state used for building a TestPlan from some other
@@ -10,19 +10,23 @@ import { TestEnum } from "index";
  * position in the hierarchy, allowing the consumer to move up and down the
  * tree as new nodes are discovered.
  */
-export declare class TestPlanBuilder {
-	/** Create a new TestPlanBuilder, used for creating a TestPlan. */
-	public constructor();
-
+interface TestPlanBuilder {
 	/** Verify that the TestPlanBuilder's state is valid and get a TestPlan from it. */
-	public finalize(): TestPlan;
+	finalize(): TestPlan;
 
 	/** Grab the current node being worked on by the TestPlanBuilder. */
-	public getCurrentNode(): PlanNode | TestPlan;
+	getCurrentNode(): PlanNode | TestPlan;
 
 	/** Creates and pushes a node onto the navigation stack. */
-	public pushNode(phrase: string, nodeType: TestEnum.NodeType, nodeModifier: TestEnum.NodeModifier): PlanNode;
+	pushNode(phrase: string, nodeType: TestEnum.NodeType, nodeModifier: TestEnum.NodeModifier): PlanNode;
 
 	/** Pops a node off of the node navigation stack. */
-	public popNode(): PlanNode;
+	popNode(): PlanNode;
 }
+
+interface TestPlanBuilderConstructor {
+	new (): TestPlanBuilder;
+}
+
+declare const TestPlanBuilder: TestPlanBuilderConstructor;
+export = TestPlanBuilder;

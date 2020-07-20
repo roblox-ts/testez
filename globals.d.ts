@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/triple-slash-reference */
-/// <reference no-default-lib="true"/>
-/// <reference path="../node_modules/@rbxts/types/include/generated/None.d.ts" />
+/// <reference types="@rbxts/types" />
 
-import { Expectation } from "./Expectation";
+import Expectation from "./src/Expectation";
 
 declare global {
 	/**

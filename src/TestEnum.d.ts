@@ -1,4 +1,4 @@
-export namespace TestEnum {
+declare namespace TestEnum {
 	enum TestStatus {
 		Success,
 		Failure,
@@ -20,3 +20,6 @@ export namespace TestEnum {
 		Focus,
 	}
 }
+
+type TestEnum = typeof TestEnum;
+export = TestEnum;

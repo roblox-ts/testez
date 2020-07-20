@@ -1,6 +1,7 @@
-import { RunResults } from "RunResults";
+import Reporter from "./Reporters/Reporter";
+import RunResults from "./RunResults";
 
-export declare const TestBootstrap: {
+interface TestBootstrap {
 	/**
 	 * Find all the ModuleScripts in this tree that are tests.
 	 * @param root The root of the tree
@@ -21,8 +22,19 @@ export declare const TestBootstrap: {
      * This means we could hypothetically present a GUI to the developer that shows
      * the test plan before we execute it, allowing them to toggle specific tests
      * before they're run, but after they've been identified!
-     * 
+     *
      * @returns The run results
      */
-	run(): RunResults;
-};
+	run(
+		roots: Array<Instance>,
+		reporter?: Reporter,
+		otherOptions?: {
+			showTimingInfo?: boolean;
+			testNamePattern?: string;
+			extraEnvironment?: Map<string, unknown>;
+		},
+	): RunResults;
+}
+
+declare const TestBootstrap: TestBootstrap;
+export = TestBootstrap;

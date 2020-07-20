@@ -1,20 +1,34 @@
-import { RunResults } from "./RunResults";
-import { Reporter } from "./Reporters/Reporter";
+import Reporter from "./Reporters/Reporter";
+import RunResults from "./RunResults";
+import TestBootstrap from "./TestBootstrap";
+import Expectation from "./Expectation";
+import TestEnum from "./TestEnum";
+import TestPlan from "./TestPlan";
+import TestPlanBuilder from "./TestPlanBuilder";
+import TestPlanner from "./TestPlanner";
+import TestResults from "./TestResults";
+import TestRunner from "./TestRunner";
+import TestSession from "./TestSession";
 
-export function run(testRoot: Instance, callback: (runResults: RunResults) => void): void;
+interface TestEZ {
+	run(testRoot: Instance, callback: (runResults: RunResults) => void): void;
 
-export * from "./Expectation";
-export { TestBootstrap } from "./TestBootstrap";
-export { TestEnum } from "./TestEnum";
-export { TestPlan } from "./TestPlan";
-export { TestPlanBuilder } from "./TestPlanBuilder";
-export { TestPlanner } from "./TestPlanner";
-export { TestResults } from "./TestResults";
-export { TestRunner } from "./TestRunner";
-export { TestSession } from "./TestSession";
+	Expectation: typeof Expectation;
+	TestBootstrap: TestBootstrap;
+	TestEnum: TestEnum;
+	TestPlan: TestPlan;
+	TestPlanBuilder: TestPlanBuilder;
+	TestPlanner: typeof TestPlanner;
+	TestResults: TestResults;
+	TestRunner: typeof TestRunner;
+	TestSession: TestSession;
 
-export declare const Reporters: {
-	TextReporter: Reporter;
-	TextReporterQuiet: Reporter;
-	TeamCityReporter: Reporter;
-};
+	Reporters: {
+		TextReporter: Reporter;
+		TextReporterQuiet: Reporter;
+		TeamCityReporter: Reporter;
+	};
+}
+
+declare const TestEZ: TestEZ;
+export = TestEZ;

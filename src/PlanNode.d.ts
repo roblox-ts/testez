@@ -1,6 +1,6 @@
-import { TestEnum } from "TestEnum";
+import TestEnum from "./TestEnum";
 
-export interface PlanNode {
+interface PlanNode {
 	phrase: string;
 	type: TestEnum.NodeType;
 	modifier: TestEnum.NodeModifier;
@@ -8,3 +8,5 @@ export interface PlanNode {
 	callback: () => void | undefined;
 	getFullName(): string;
 }
+
+export = PlanNode;

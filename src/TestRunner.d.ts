@@ -1,10 +1,10 @@
-import { TestResults } from "TestResults";
-import { TestPlan } from "TestPlan";
-import { TestSession } from "TestSession";
-import { LifecycleHooks } from "LifecycleHooks";
-import { PlanNode } from "PlanNode";
+import LifecycleHooks from "./LifecycleHooks";
+import PlanNode from "./PlanNode";
+import TestPlan from "./TestPlan";
+import TestResults from "./TestResults";
+import TestSession from "./TestSession";
 
-export declare const TestRunner: {
+declare const TestRunner: {
 	environment: object;
 
 	/**
@@ -19,3 +19,5 @@ export declare const TestRunner: {
 	 */
 	runPlanNode: (session: TestSession, planNode: PlanNode, lifecycleHooks: LifecycleHooks) => [string, boolean];
 };
+
+export = TestRunner;

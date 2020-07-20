@@ -1,20 +1,25 @@
-import { PlanNode } from "PlanNode";
+import PlanNode from "./PlanNode";
 
-export declare class LifecycleHooks {
-	public constructor();
-
+interface LifecycleHooks {
 	/** Returns an array of `beforeEach` hooks in FIFO order */
-	public getBeforeEachHooks(): Array<() => void>;
+	getBeforeEachHooks(): Array<() => void>;
 
 	/** Returns an array of `afterEach` hooks in FILO order */
-	public getAfterEachHooks(): Array<() => void>;
+	getAfterEachHooks(): Array<() => void>;
 
 	/** Pushes uncalled beforeAll and afterAll hooks back up the stack */
-	public popHooks(): void;
+	popHooks(): void;
 
-	public pushHooksFrom(planNode: PlanNode): void;
+	pushHooksFrom(planNode: PlanNode): void;
 
-	public getPendingBeforeAllHooks(): Array<() => void>;
+	getPendingBeforeAllHooks(): Array<() => void>;
 
-	public getAfterAllHooks(): Array<() => void>;
+	getAfterAllHooks(): Array<() => void>;
 }
+
+interface LifecycleHooksConstructor {
+	new (): LifecycleHooks;
+}
+
+declare const LifecycleHooks: LifecycleHooksConstructor;
+export = LifecycleHooks;
