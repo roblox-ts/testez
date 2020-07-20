@@ -29,27 +29,27 @@ interface Expectation {
 	 * @param typeName The given type
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	a(typeName: string): Expectation;
+	a: (typeName: string) => Expectation;
 
 	/**
 	 * Assert that the expectation value is the given type.
 	 * @param typeName The given type
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	an(typeName: string): Expectation;
+	an: (typeName: string) => Expectation;
 
 	/**
 	 * Assert that our expectation value is truthy
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	ok(): Expectation;
+	ok: () => Expectation;
 
 	/**
 	 * Assert that our expectation value is equal to another value
 	 * @param otherValue The other value
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	equal(otherValue: unknown): Expectation;
+	equal: (otherValue: unknown) => Expectation;
 
 	/**
 	 * Assert that our expectation value is equal to another value within some
@@ -58,13 +58,13 @@ interface Expectation {
 	 * @param limit The inclusive limit (defaults to 1e-7)
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	near(otherValue: unknown, limit?: number): Expectation;
+	near: (otherValue: unknown, limit?: number) => Expectation;
 
 	/**
 	 * Assert that our functoid expectation value throws an error when called
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	throw(): Expectation;
+	throw: () => Expectation;
 }
 
 interface ExpectationConstructor {
