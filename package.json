@@ -10,14 +10,14 @@
 	"scripts": {},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Bytebit-Org/testez"
+		"url": "git+https://github.com/roblox-ts/testez"
 	},
 	"author": "Roblox",
 	"license": "Apache 2.0",
 	"bugs": {
-		"url": "https://github.com/Bytebit-Org/testez/issues"
+		"url": "https://github.com/roblox-ts/testez/issues"
 	},
-	"homepage": "https://github.com/Bytebit-Org/testez#readme",
+	"homepage": "https://github.com/roblox-ts/testez#readme",
 	"keywords": [],
 	"description": "A fork of TestEZ with TypeScript typings",
 	"publishConfig": {
