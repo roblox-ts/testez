@@ -1,6 +1,8 @@
-import { PlanNode } from "PlanNode";
+import PlanNode from "./PlanNode";
 
-export interface Module {
+interface Module {
 	method: () => void;
 	path: Array<PlanNode>;
 }
+
+export = Module;

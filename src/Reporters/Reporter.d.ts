@@ -1,5 +1,7 @@
-import { RunResults } from "RunResults";
+import RunResults from "../RunResults";
 
-export interface Reporter {
+interface Reporter {
 	report: (runResults: RunResults) => void;
 }
+
+export = Reporter;
