@@ -1,0 +1,25 @@
+# @rbxts/testez
+## Information
+This package wraps Roblox's [TestEZ](https://github.com/Roblox/testez) tool with TypeScript typings.
+
+[Click here to read the official documentation for TestEZ.](https://roblox.github.io/testez/) This wrapper simply wraps all of the TestEZ API in TypeScript type files.
+
+## Usage
+To use the TestEZ globals in a file, add the following line to the top of the file:
+
+```ts
+/// <reference types="@rbxts/testez/globals" />
+```
+
+Then run using a script much like the following:
+
+```ts
+import { ReplicatedStorage } from "@rbxts/services";
+import TestEZ from "@rbxts/testez";
+
+const results = TestEZ.TestBootstrap.run([ ReplicatedStorage.TS.tests ]);
+
+if (results.errors.size() > 0 || results.failureCount > 0) {
+    error("Tests Failed!!");
+}
+```
