@@ -45,7 +45,7 @@ end
 	session to store all of the results.
 ]]
 function TestRunner.runPlanNode(session, planNode, lifecycleHooks)
-	local function runCallback(callback, always, messagePrefix)
+	local function runCallback(callback, messagePrefix)
 		local success = true
 		local errorMessage
 		-- Any code can check RUNNING_GLOBAL to fork behavior based on
@@ -70,9 +70,16 @@ function TestRunner.runPlanNode(session, planNode, lifecycleHooks)
 			errorMessage = messagePrefix .. message .. "\n" .. debug.traceback()
 		end
 
-		local nodeSuccess, nodeResult = xpcall(callback, function(message)
-			return messagePrefix .. message .. "\n" .. debug.traceback()
-		end)
+		local context = session:getContext()
+
+		local nodeSuccess, nodeResult = xpcall(
+			function()
+				callback(context)
+			end,
+			function(message)
+				return messagePrefix .. message .. "\n" .. debug.traceback()
+			end
+		)
 
 		-- If a node threw an error, we prefer to use that message over
 		-- one created by fail() if it was set.
@@ -90,15 +97,8 @@ function TestRunner.runPlanNode(session, planNode, lifecycleHooks)
 		-- Errors can be set either via `error` propagating upwards or
 		-- by a test calling fail([message]).
 
-		for _, hook in pairs(lifecycleHooks:getPendingBeforeAllHooks()) do
-			local success, errorMessage = runCallback(hook, false, "beforeAll hook: ")
-			if not success then
-				return false, errorMessage
-			end
-		end
-
-		for _, hook in pairs(lifecycleHooks:getBeforeEachHooks()) do
-			local success, errorMessage = runCallback(hook, false, "beforeEach hook: ")
+		for _, hook in ipairs(lifecycleHooks:getBeforeEachHooks()) do
+			local success, errorMessage = runCallback(hook, "beforeEach hook: ")
 			if not success then
 				return false, errorMessage
 			end
@@ -111,8 +111,8 @@ function TestRunner.runPlanNode(session, planNode, lifecycleHooks)
 			end
 		end
 
-		for _, hook in pairs(lifecycleHooks:getAfterEachHooks()) do
-			local success, errorMessage = runCallback(hook, true, "afterEach hook: ")
+		for _, hook in ipairs(lifecycleHooks:getAfterEachHooks()) do
+			local success, errorMessage = runCallback(hook, "afterEach hook: ")
 			if not success then
 				return false, errorMessage
 			end
@@ -123,64 +123,52 @@ function TestRunner.runPlanNode(session, planNode, lifecycleHooks)
 
 	lifecycleHooks:pushHooksFrom(planNode)
 
-	for _, childPlanNode in ipairs(planNode.children) do
-		local childResultNode = session:pushNode(childPlanNode)
-
-		if childPlanNode.type == TestEnum.NodeType.It then
-			if session:shouldSkip() then
-				childResultNode.status = TestEnum.TestStatus.Skipped
-			else
-				local success, errorMessage = runNode(childPlanNode)
-
-				if success then
-					childResultNode.status = TestEnum.TestStatus.Success
-				else
-					childResultNode.status = TestEnum.TestStatus.Failure
-					table.insert(childResultNode.errors, errorMessage)
-				end
-			end
-		elseif childPlanNode.type == TestEnum.NodeType.Describe then
-			TestRunner.runPlanNode(session, childPlanNode, lifecycleHooks)
-
-			local status = TestEnum.TestStatus.Success
-
-			-- Did we have an error trying build a test plan?
-			if childPlanNode.loadError then
-				status = TestEnum.TestStatus.Failure
-
-				local message = "Error during planning: " .. childPlanNode.loadError
-
-				table.insert(childResultNode.errors, message)
-			else
-				local skipped = true
-
-				-- If all children were skipped, then we were skipped
-				-- If any child failed, then we failed!
-				for _, child in ipairs(childResultNode.children) do
-					if child.status ~= TestEnum.TestStatus.Skipped then
-						skipped = false
-
-						if child.status == TestEnum.TestStatus.Failure then
-							status = TestEnum.TestStatus.Failure
-						end
-					end
-				end
-
-				if skipped then
-					status = TestEnum.TestStatus.Skipped
-				end
-			end
-
-			childResultNode.status = status
+	local halt = false
+	for _, hook in ipairs(lifecycleHooks:getBeforeAllHooks()) do
+		local success, errorMessage = runCallback(hook, "beforeAll hook: ")
+		if not success then
+			session:addDummyError("beforeAll", errorMessage)
+			halt = true
 		end
-
-		session:popNode()
 	end
 
-	for _, hook in pairs(lifecycleHooks:getAfterAllHooks()) do
-		runCallback(hook, true, "afterAll hook: ")
-		-- errors in an afterAll hook are currently not caught
-		-- or attributed to a set of child nodes
+	if not halt then
+		for _, childPlanNode in ipairs(planNode.children) do
+			session:pushNode(childPlanNode)
+
+			if childPlanNode.type == TestEnum.NodeType.It then
+				if session:shouldSkip() then
+					session:setSkipped()
+				else
+					local success, errorMessage = runNode(childPlanNode)
+
+					if success then
+						session:setSuccess()
+					else
+						session:setError(errorMessage)
+					end
+				end
+			elseif childPlanNode.type == TestEnum.NodeType.Describe then
+				TestRunner.runPlanNode(session, childPlanNode, lifecycleHooks)
+
+				-- Did we have an error trying build a test plan?
+				if childPlanNode.loadError then
+					local message = "Error during planning: " .. childPlanNode.loadError
+					session:setError(message)
+				else
+					session:setStatusFromChildren()
+				end
+			end
+
+			session:popNode()
+		end
+	end
+
+	for _, hook in ipairs(lifecycleHooks:getAfterAllHooks()) do
+		local success, errorMessage = runCallback(hook, "afterAll hook: ")
+		if not success then
+			session:addDummyError("afterAll", errorMessage)
+		end
 	end
 
 	lifecycleHooks:popHooks()

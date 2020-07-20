@@ -39,6 +39,10 @@ local function runTestPlan(testPlan)
 	local plan = TestEZ.TestPlanner.createPlan({
 		{
 			method = function()
+				-- This function environment hack is needed because the testPlan
+				-- function is not defined or required from within a test. This
+				-- shouldn't come up in real tests.
+				setfenv(testPlan, getfenv())
 				testPlan(insertLifecycleEvent)
 			end,
 			path = {'lifecycleHooksTest'}
@@ -71,12 +75,19 @@ return {
 			it("runs root", function()
 				insertLifecycleEvent("1 - test")
 			end)
+
+			it("runs root again", function()
+				insertLifecycleEvent("1 - another test")
+			end)
 		end)
 
 		expectShallowEquals(lifecycleOrder, {
 			"1 - beforeAll",
 			"1 - beforeEach",
 			"1 - test",
+			"1 - afterEach",
+			"1 - beforeEach",
+			"1 - another test",
 			"1 - afterEach",
 			"1 - afterAll",
 		})
@@ -131,7 +142,15 @@ return {
 					beforeAll(function()
 						insertLifecycleEvent("3 - beforeAll")
 					end)
+
+					afterAll(function()
+						insertLifecycleEvent("3 - afterAll")
+					end)
 				end)
+			end)
+
+			it("runs root again", function()
+				insertLifecycleEvent("1 - another test")
 			end)
 		end)
 
@@ -146,7 +165,12 @@ return {
 			"2 - test",
 			"2 - afterEach",
 			"1 - afterEach",
+			"3 - beforeAll",
+			"3 - afterAll",
 			"2 - afterAll",
+			"1 - beforeEach",
+			"1 - another test",
+			"1 - afterEach",
 			"1 - afterAll",
 		})
 		expectNoFailures(results)
@@ -230,14 +254,6 @@ return {
 		failLifecycleCase("beforeAll")
 		failLifecycleCase("beforeEach")
 		failLifecycleCase("afterEach")
-		-- `afterAll` failure case is intentionally missing.
-		-- Currently it is not easy to attach an afterAll failure to
-		-- a particular set of childNodes without some refactoring.
-		-- Additionally, when jest afterAll hooks fail, it fails the test suite
-		-- and not any particular node which is a different flavor of failure
-		-- that TestEZ does not offer right now
-		-- Consult the following:
-		-- https://github.com/facebook/jest/issues/3266
-		-- https://github.com/facebook/jest/pull/5884
+		failLifecycleCase("afterAll")
 	end,
 }
