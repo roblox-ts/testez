@@ -1,6 +1,6 @@
-import TestPlan from "./TestPlan";
 import PlanNode from "./PlanNode";
 import ResultNode from "./ResultNode";
+import TestPlan from "./TestPlan";
 
 /**
  * Represents a tree of test results.

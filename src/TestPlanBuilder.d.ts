@@ -1,6 +1,6 @@
-import TestPlan from "./TestPlan";
 import PlanNode from "./PlanNode";
 import TestEnum from "./TestEnum";
+import TestPlan from "./TestPlan";
 
 /**
  * Represents the ephermal state used for building a TestPlan from some other

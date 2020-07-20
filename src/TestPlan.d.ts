@@ -1,6 +1,5 @@
 import PlanNode from "./PlanNode";
 import TestEnum from "./TestEnum";
-import TestPlanBuilder from "./TestPlanBuilder";
 
 /**
  * Represents a tree of tests that have been loaded but not necessarily
