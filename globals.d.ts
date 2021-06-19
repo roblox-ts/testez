@@ -47,5 +47,5 @@ declare global {
 	/**
 	 * Creates a new Expectation, used for testing the properties of the given value.
 	 */
-	function expect(value: unknown): Expectation;
+	function expect<T>(value: T): Expectation<T>;
 }
