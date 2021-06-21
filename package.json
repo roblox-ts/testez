@@ -32,6 +32,5 @@
 		"eslint-plugin-prettier": "^3.1.2",
 		"eslint-plugin-roblox-ts": "0.0.7",
 		"prettier": "^1.19.1"
-	},
-	"dependencies": {}
+	}
 }

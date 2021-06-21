@@ -130,7 +130,7 @@ end
 	expect(5).to.be.a("number")
 ]]
 function Expectation:a(typeName)
-	local result = (type(self.value) == typeName) == self.successCondition
+	local result = (typeof(self.value) == typeName) == self.successCondition
 
 	local message = formatMessage(self.successCondition,
 		("Expected value of type %q, got value %q of type %s"):format(
@@ -152,7 +152,7 @@ function Expectation:a(typeName)
 end
 
 --[[
-	Assert that our expectation value is truthy
+	Assert that our expectation value is not nil
 ]]
 function Expectation:ok()
 	local result = (self.value ~= nil) == self.successCondition

@@ -1,26 +1,26 @@
-interface Expectation {
+interface Expectation<T> {
 	// LINGUISTIC NO-OPS
 	/** A linguistic no-op */
-	readonly to: Expectation;
+	readonly to: Expectation<T>;
 
 	/** A linguistic no-op */
-	readonly be: Expectation;
+	readonly be: Expectation<T>;
 
 	/** A linguistic no-op */
-	readonly been: Expectation;
+	readonly been: Expectation<T>;
 
 	/** A linguistic no-op */
-	readonly have: Expectation;
+	readonly have: Expectation<T>;
 
 	/** A linguistic no-op */
-	readonly was: Expectation;
+	readonly was: Expectation<T>;
 
 	/** A linguistic no-op */
-	readonly at: Expectation;
+	readonly at: Expectation<T>;
 
 	// LINGUISTIC OPS
 	/** Applies a never operation to the expectation */
-	readonly never: Expectation;
+	readonly never: Expectation<T>;
 
 	// METHODS
 
@@ -29,27 +29,27 @@ interface Expectation {
 	 * @param typeName The given type
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	a: (typeName: string) => Expectation;
+	a: (typeName: ReturnType<typeof typeOf>) => Expectation<T>;
 
 	/**
 	 * Assert that the expectation value is the given type.
 	 * @param typeName The given type
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	an: (typeName: string) => Expectation;
+	an: (typeName: ReturnType<typeof typeOf>) => Expectation<T>;
 
 	/**
-	 * Assert that our expectation value is truthy
+	 * Assert that our expectation value is not `undefined`
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	ok: () => Expectation;
+	ok: () => Expectation<T>;
 
 	/**
 	 * Assert that our expectation value is equal to another value
 	 * @param otherValue The other value
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	equal: (otherValue: unknown) => Expectation;
+	equal: (otherValue: unknown) => Expectation<T>;
 
 	/**
 	 * Assert that our expectation value is equal to another value within some
@@ -58,17 +58,17 @@ interface Expectation {
 	 * @param limit The inclusive limit (defaults to 1e-7)
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	near: (otherValue: unknown, limit?: number) => Expectation;
+	near: (this: Expectation<number>, otherValue: number, limit?: number) => Expectation<T>;
 
 	/**
 	 * Assert that our functoid expectation value throws an error when called
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	throw: () => Expectation;
+	throw: () => Expectation<T>;
 }
 
 interface ExpectationConstructor {
-	new (value: unknown): Expectation;
+	new <T>(value: T): Expectation<T>;
 }
 
 declare const Expectation: ExpectationConstructor;
