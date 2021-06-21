@@ -62,9 +62,10 @@ interface Expectation<T> {
 
 	/**
 	 * Assert that our functoid expectation value throws an error when called
+	 * @param search If passed, asserts that this substring is included in the error message
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	throw: () => Expectation<T>;
+	throw: (this: Expectation<Callback>, search?: string) => Expectation<T>;
 }
 
 interface ExpectationConstructor {
