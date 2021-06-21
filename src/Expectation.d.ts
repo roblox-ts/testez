@@ -1,26 +1,26 @@
 interface Expectation<T> {
 	// LINGUISTIC NO-OPS
 	/** A linguistic no-op */
-	readonly to: Expectation<T>;
+	readonly to: Expectation<T> & CustomMatchers;
 
 	/** A linguistic no-op */
-	readonly be: Expectation<T>;
+	readonly be: Expectation<T> & CustomMatchers;
 
 	/** A linguistic no-op */
-	readonly been: Expectation<T>;
+	readonly been: Expectation<T> & CustomMatchers;
 
 	/** A linguistic no-op */
-	readonly have: Expectation<T>;
+	readonly have: Expectation<T> & CustomMatchers;
 
 	/** A linguistic no-op */
-	readonly was: Expectation<T>;
+	readonly was: Expectation<T> & CustomMatchers;
 
 	/** A linguistic no-op */
-	readonly at: Expectation<T>;
+	readonly at: Expectation<T> & CustomMatchers;
 
 	// LINGUISTIC OPS
 	/** Applies a never operation to the expectation */
-	readonly never: Expectation<T>;
+	readonly never: Expectation<T> & CustomMatchers;
 
 	// METHODS
 
@@ -62,13 +62,14 @@ interface Expectation<T> {
 
 	/**
 	 * Assert that our functoid expectation value throws an error when called
+	 * @param search If passed, asserts that this substring is included in the error message
 	 * @returns If the assertion passes, returns reference to itself
 	 */
-	throw: () => Expectation<T>;
+	throw: (this: Expectation<Callback>, search?: string) => Expectation<T>;
 }
 
 interface ExpectationConstructor {
-	new <T>(value: T): Expectation<T>;
+	new <T>(value: T): Expectation<T> & CustomMatchers;
 }
 
 declare const Expectation: ExpectationConstructor;
