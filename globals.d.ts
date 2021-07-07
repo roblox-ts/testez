@@ -29,6 +29,11 @@ declare global {
 	function itSKIP(phrase: string, callback: () => void): void;
 
 	/**
+	 * This function works the same as itSKIP(), except that it logs a warning reminding you of the skip.
+	 */
+	function itFIXME(phrase: string, callback: () => void): void;
+
+	/**
 	 * When called inside a describe block, FOCUS() marks that block as focused.
 	 * If there are any focused blocks inside your test tree, only focused blocks will be executed,
 	 * and all other tests will be skipped.
@@ -43,6 +48,11 @@ declare global {
 	 * it will mark a block as skipped, which stops any of the test assertions in the block from being executed.
 	 */
 	function SKIP(): void;
+
+	/**
+	 * This function works the same as SKIP(), except that it logs a warning reminding you of the skip.
+	 */
+	function FIXME(): void;
 
 	/**
 	 * Creates a new Expectation, used for testing the properties of the given value.
